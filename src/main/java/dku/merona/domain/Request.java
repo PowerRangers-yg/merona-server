@@ -3,7 +3,7 @@ package dku.merona.domain;
 import javax.persistence.*;
 
 @Entity
-public class Request {
+public class Request extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "request_id")
