@@ -1,5 +1,7 @@
 package dku.merona.domain;
 
+import dku.merona.constant.Status;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,4 +24,7 @@ public class Post extends BaseTime{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }
