@@ -3,7 +3,9 @@ package dku.merona.dto;
 import dku.merona.constant.Status;
 import dku.merona.domain.Member;
 import dku.merona.domain.Post;
+import lombok.Getter;
 
+@Getter
 public class PostResponse {
 
     private Long id;

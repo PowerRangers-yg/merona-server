@@ -3,9 +3,9 @@ package dku.merona.dto;
 import dku.merona.domain.Member;
 import dku.merona.domain.Post;
 import lombok.Getter;
+import lombok.Setter;
 
-
-@Getter
+@Getter @Setter
 public class PostRequest {
     private String title;
 
