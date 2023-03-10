@@ -5,11 +5,12 @@ import dku.merona.domain.Member;
 import dku.merona.domain.Post;
 import dku.merona.domain.Request;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
-public class RequestDto {
-
-    private Long id;
+@Getter @Setter
+@NoArgsConstructor
+public class RequestRequest {
 
     private String currentLocation;
 
@@ -19,16 +20,9 @@ public class RequestDto {
 
     private Post post;
 
-    private RequestStatus status;
+    private Long postId;
 
-    public RequestDto(Request request) {
-        this.id = request.getId();
-        this.currentLocation = request.getCurrentLocation();
-        this.dueTime = request.getDueTime();
-        this.member = request.getMember();
-        this.post = request.getPost();
-        this.status = request.getStatus();
-    }
+    private RequestStatus status;
 
     public Request toEntity(){
         return Request.builder()
@@ -37,5 +31,9 @@ public class RequestDto {
                 .member(member)
                 .post(post)
                 .build();
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }
