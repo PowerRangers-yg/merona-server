@@ -17,21 +17,23 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public void createPost(PostRequest postRequest) {
-        Post post = postRequest.toEntity();
+    public Post findPostById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new NoSuchElementException("게시물이 없습니다"));
+    }
 
-        postRepository.save(post);
+    public PostResponse createPost(PostRequest postRequest) {
+        Post post = postRepository.save(postRequest.toEntity());
+        return new PostResponse(post);
     }
 
     public PostResponse getPost(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new NoSuchElementException("게시물이 없습니다"));
+        Post post = findPostById(postId);
         return new PostResponse(post);
     }
 
     public PostResponse updatePost(Long postId, PostRequest postRequest) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new NoSuchElementException("게시물이 없습니다"));
+        Post post = findPostById(postId);
         post.setPost(postRequest);
         return new PostResponse(post);
     }
