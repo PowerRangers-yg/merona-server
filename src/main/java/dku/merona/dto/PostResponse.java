@@ -5,6 +5,8 @@ import dku.merona.domain.Member;
 import dku.merona.domain.Post;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class PostResponse {
 
@@ -24,6 +26,10 @@ public class PostResponse {
 
     private Status status;
 
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
     public PostResponse(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();
@@ -33,5 +39,7 @@ public class PostResponse {
         this.arrivalLocation = post.getArrivalLocation();
         this.member = post.getMember();
         this.status = post.getStatus();
+        this.createdAt = post.getCreatedAt();
+        this.updatedAt = post.getUpdatedAt();
     }
 }
