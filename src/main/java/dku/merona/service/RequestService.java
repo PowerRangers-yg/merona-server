@@ -4,7 +4,6 @@ import dku.merona.domain.Post;
 import dku.merona.domain.Request;
 import dku.merona.dto.RequestRequest;
 import dku.merona.dto.RequestResponse;
-import dku.merona.repository.PostRepository;
 import dku.merona.repository.RequestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +19,15 @@ import java.util.stream.Collectors;
 public class RequestService {
 
     private final RequestRepository requestRepository;
-    private final PostRepository postRepository;
+    private final PostService postService;
+
+    public Request findRequestById(Long requestId) {
+        return requestRepository.findById(requestId)
+                .orElseThrow(() -> new NoSuchElementException("해당 요청이 없습니다"));
+    }
 
     public RequestResponse createRequest(RequestRequest requestRequest) {
-        Post post = postRepository.findById(requestRequest.getPostId())
-                .orElseThrow(() -> new NoSuchElementException("게시물이 없습니다"));
+        Post post = postService.findPostById(requestRequest.getPostId());
 
         requestRequest.setPost(post);
         Request request = requestRepository.save(requestRequest.toEntity());
@@ -32,15 +35,13 @@ public class RequestService {
     }
 
     public List<RequestResponse> getAllRequestByPost(Long postId) {
-        Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new NoSuchElementException("게시물이 없습니다"));
+        Post post = postService.findPostById(postId);
         return requestRepository.findAllByPost(post)
                 .stream().map(RequestResponse::new).collect(Collectors.toList());
     }
 
     public void deleteRequest(Long requestId) {
-        Request request = requestRepository.findById(requestId)
-                .orElseThrow(() -> new NoSuchElementException("해당 요청이 없습니다"));
+        Request request = findRequestById(requestId);
         request.deleteRelation();
         requestRepository.deleteById(requestId);
     }
