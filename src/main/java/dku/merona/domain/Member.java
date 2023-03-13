@@ -1,5 +1,6 @@
 package dku.merona.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,10 +17,13 @@ public class Member extends BaseTime{
     @Column(name = "member_id")
     private Long id;
 
+    @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Builder
