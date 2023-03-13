@@ -2,6 +2,7 @@ package dku.merona.config.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,7 +25,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests() // 리퀘스트에 대한 사용권한 체크
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/sign-up", "/api/sign-in").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 .antMatchers("**exception**").permitAll()
                 .anyRequest().authenticated()
                 .and()
