@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,7 +26,7 @@ public class MemberService {
     public void signUp(SignUpDto signUpDto) {
         Member member = signUpDto.toEntity();
         member.encodePassword(passwordEncoder);
-        memberRepository.save(member);
+        saveMember(member);
     }
 
     public MemberResponse signIn(SignInDto signInDto) {
@@ -33,7 +35,20 @@ public class MemberService {
         if (!passwordEncoder.matches(signInDto.getPassword(), member.getPassword())) {
             throw new UsernameNotFoundException("이메일 또는 비밀번호를 확인해주세요");
         }
-
         return new MemberResponse(member, jwtTokenProvider.createToken(member.getEmail()));
+    }
+
+    public Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException("회원이 없습니다"));
+    }
+
+    public MemberResponse getMember(Long memberId) {
+        Member member = findMemberById(memberId);
+        return new MemberResponse(member);
+    }
+
+    private Member saveMember(Member member) {
+        return memberRepository.save(member);
     }
 }
