@@ -29,6 +29,10 @@ public class UserDetailsImpl implements UserDetails {
         return member.getEmail();
     }
 
+    public Long getId() {
+        return member.getId();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
