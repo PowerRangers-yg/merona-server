@@ -28,7 +28,7 @@ public class PostService {
     public PostResponse createPost(PostRequest postRequest, UserDetailsImpl user) {
         Member member = memberService.findMemberById(user.getId());
         postRequest.setMember(member);
-        Post post = postRepository.save(postRequest.toEntity());
+        Post post = savePost(postRequest.toEntity());
         return new PostResponse(post);
     }
 
@@ -55,5 +55,9 @@ public class PostService {
             throw new IllegalStateException("잘못된 요청입니다");
         }
         return true;
+    }
+
+    private Post savePost(Post post) {
+        return postRepository.save(post);
     }
 }
