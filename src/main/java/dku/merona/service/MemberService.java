@@ -1,6 +1,8 @@
 package dku.merona.service;
 
+import dku.merona.config.UserDetailsImpl;
 import dku.merona.domain.Member;
+import dku.merona.dto.MemberRequest;
 import dku.merona.dto.MemberResponse;
 import dku.merona.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +23,30 @@ public class MemberService {
                 .orElseThrow(() -> new NoSuchElementException("회원이 없습니다"));
     }
 
+    public Member saveMember(Member member) {
+        return memberRepository.save(member);
+    }
+
+    public void validateMember(UserDetailsImpl user, Long memberId) {
+        if (!user.getId().equals(memberId)) {
+            throw new IllegalStateException("잘못된 요청입니다");
+        }
+    }
+
     public MemberResponse getMember(Long memberId) {
         Member member = findMemberById(memberId);
         return new MemberResponse(member);
     }
 
-    public Member saveMember(Member member) {
-        return memberRepository.save(member);
+    public MemberResponse updateMember(Long memberId, MemberRequest request, UserDetailsImpl user) {
+        Member member = findMemberById(memberId);
+        validateMember(user, memberId);
+        member.setMember(request.getUsername());
+        return new MemberResponse(member);
+    }
+
+    public void deleteMember(Long memberId, UserDetailsImpl user) {
+        validateMember(user, memberId);
+        memberRepository.deleteById(memberId);
     }
 }
