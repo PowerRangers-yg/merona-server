@@ -63,6 +63,5 @@ public class Post extends BaseTime{
         this.description = postRequest.getDescription();
         this.deliveryPay = postRequest.getDeliveryPay();
         this.dueTime = postRequest.getDueTime();
-        this.address = postRequest.getAddress();
     }
 }
