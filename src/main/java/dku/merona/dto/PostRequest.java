@@ -15,7 +15,7 @@ public class PostRequest {
 
     private int dueTime;
 
-    private String arrivalLocation;
+    private String address;
 
     private Member member;
 
@@ -25,7 +25,7 @@ public class PostRequest {
                 .description(description)
                 .deliveryPay(deliveryPay)
                 .dueTime(dueTime)
-                .arrivalLocation(arrivalLocation)
+                .address(address)
                 .member(member)
                 .build();
     }

@@ -25,7 +25,11 @@ public class Post extends BaseTime{
 
     private int dueTime;
 
-    private String arrivalLocation;
+    private String address;
+
+    private Double latitude;
+
+    private Double longitude;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -35,12 +39,21 @@ public class Post extends BaseTime{
     private Status status;
 
     @Builder
-    public Post(String title, String description, int deliveryPay, int dueTime, String arrivalLocation, Member member) {
+    public Post(String title,
+                String description,
+                int deliveryPay,
+                int dueTime,
+                String address,
+                double latitude,
+                double longitude,
+                Member member) {
         this.title = title;
         this.description = description;
         this.deliveryPay = deliveryPay;
         this.dueTime = dueTime;
-        this.arrivalLocation = arrivalLocation;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.member = member;
         this.status = Status.WAITING;
     }
@@ -50,6 +63,6 @@ public class Post extends BaseTime{
         this.description = postRequest.getDescription();
         this.deliveryPay = postRequest.getDeliveryPay();
         this.dueTime = postRequest.getDueTime();
-        this.arrivalLocation = postRequest.getArrivalLocation();
+        this.address = postRequest.getAddress();
     }
 }

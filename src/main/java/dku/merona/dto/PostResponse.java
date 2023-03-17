@@ -20,7 +20,11 @@ public class PostResponse {
 
     private int dueTime;
 
-    private String arrivalLocation;
+    private String address;
+
+    private Double latitude;
+
+    private Double longitude;
 
     private Member member;
 
@@ -36,7 +40,9 @@ public class PostResponse {
         this.description = post.getDescription();
         this.deliveryPay = post.getDeliveryPay();
         this.dueTime = post.getDueTime();
-        this.arrivalLocation = post.getArrivalLocation();
+        this.address = post.getAddress();
+        this.latitude = post.getLatitude();
+        this.longitude = post.getLongitude();
         this.member = post.getMember();
         this.status = post.getStatus();
         this.createdAt = post.getCreatedAt();
