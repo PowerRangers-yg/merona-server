@@ -17,6 +17,10 @@ public class PostRequest {
 
     private String address;
 
+    private Double latitude;
+
+    private Double longitude;
+
     private Member member;
 
     public Post toEntity(){
@@ -26,6 +30,8 @@ public class PostRequest {
                 .deliveryPay(deliveryPay)
                 .dueTime(dueTime)
                 .address(address)
+                .latitude(latitude)
+                .longitude(longitude)
                 .member(member)
                 .build();
     }
