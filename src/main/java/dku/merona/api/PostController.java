@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
@@ -18,6 +20,11 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostService postService;
+
+    @GetMapping("/")
+    public ResponseEntity<List<PostResponse>> getAllPost(@AuthenticationPrincipal UserDetailsImpl user) {
+        return new ResponseEntity<>(postService.getAllPost(user), HttpStatus.OK);
+    }
 
     @PostMapping("/new")
     public ResponseEntity<PostResponse> createPost(@AuthenticationPrincipal UserDetailsImpl user,

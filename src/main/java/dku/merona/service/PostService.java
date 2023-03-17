@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,22 +41,21 @@ public class PostService {
 
     public PostResponse updatePost(Long postId, PostRequest postRequest, UserDetailsImpl user) {
         Post post = findPostById(postId);
-        isEqualMember(user, post.getMember());
+        memberService.validateMember(user, post.getMember().getId());
         post.setPost(postRequest);
         return new PostResponse(post);
     }
 
     public void deletePost(Long postId, UserDetailsImpl user) {
         Post post = findPostById(postId);
-        isEqualMember(user, post.getMember());
+        memberService.validateMember(user, post.getMember().getId());
         postRepository.deleteById(postId);
     }
 
-    public boolean isEqualMember(UserDetailsImpl user, Member member) {
-        if (!user.getId().equals(member.getId())) {
-            throw new IllegalStateException("잘못된 요청입니다");
-        }
-        return true;
+    public List<PostResponse> getAllPost(UserDetailsImpl user) {
+        Member member = memberService.findMemberById(user.getId());
+        return postRepository.findAllByMemberNot(member)
+                .stream().map(PostResponse::new).collect(Collectors.toList());
     }
 
     private Post savePost(Post post) {
