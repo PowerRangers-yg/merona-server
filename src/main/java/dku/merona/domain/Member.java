@@ -36,4 +36,8 @@ public class Member extends BaseTime{
     public void encodePassword(PasswordEncoder passwordEncoder){
         this.password = passwordEncoder.encode(password);
     }
+
+    public void setMember(String username){
+        this.username = username;
+    }
 }
