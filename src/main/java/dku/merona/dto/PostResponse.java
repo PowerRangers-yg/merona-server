@@ -26,6 +26,8 @@ public class PostResponse {
 
     private Double longitude;
 
+    private String category;
+
     private Member member;
 
     private Status status;
@@ -44,6 +46,7 @@ public class PostResponse {
         this.latitude = post.getLatitude();
         this.longitude = post.getLongitude();
         this.member = post.getMember();
+        this.category = post.getCategory().getTitle();
         this.status = post.getStatus();
         this.createdAt = post.getCreatedAt();
         this.updatedAt = post.getUpdatedAt();

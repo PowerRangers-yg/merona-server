@@ -1,5 +1,6 @@
 package dku.merona.domain;
 
+import dku.merona.constant.Category;
 import dku.merona.constant.Status;
 import dku.merona.dto.PostRequest;
 import lombok.Builder;
@@ -31,6 +32,9 @@ public class Post extends BaseTime{
 
     private Double longitude;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -46,6 +50,7 @@ public class Post extends BaseTime{
                 String address,
                 double latitude,
                 double longitude,
+                Category category,
                 Member member) {
         this.title = title;
         this.description = description;
@@ -54,6 +59,7 @@ public class Post extends BaseTime{
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.category = category;
         this.member = member;
         this.status = Status.WAITING;
     }

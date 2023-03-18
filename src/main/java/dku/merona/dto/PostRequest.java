@@ -1,5 +1,6 @@
 package dku.merona.dto;
 
+import dku.merona.constant.Category;
 import dku.merona.domain.Member;
 import dku.merona.domain.Post;
 import lombok.Getter;
@@ -21,6 +22,10 @@ public class PostRequest {
 
     private Double longitude;
 
+    private String category;
+
+    private Category postCategory;
+
     private Member member;
 
     public Post toEntity(){
@@ -32,6 +37,7 @@ public class PostRequest {
                 .address(address)
                 .latitude(latitude)
                 .longitude(longitude)
+                .category(postCategory)
                 .member(member)
                 .build();
     }
