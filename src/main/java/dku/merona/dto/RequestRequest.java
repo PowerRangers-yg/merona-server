@@ -32,8 +32,4 @@ public class RequestRequest {
                 .post(post)
                 .build();
     }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
 }
