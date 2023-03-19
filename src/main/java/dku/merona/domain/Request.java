@@ -1,6 +1,5 @@
 package dku.merona.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import dku.merona.constant.RequestStatus;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,6 +43,14 @@ public class Request extends BaseTime{
     public void deleteRelation() {
         this.member = null;
         this.post = null;
+    }
+
+    public void setStatusMatching() {
+        this.status = RequestStatus.MATCHING;
+    }
+
+    public void setStatusCancelled() {
+        this.status = RequestStatus.CANCELLED;
     }
 
 }

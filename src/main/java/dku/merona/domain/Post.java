@@ -70,4 +70,12 @@ public class Post extends BaseTime{
         this.deliveryPay = postRequest.getDeliveryPay();
         this.dueTime = postRequest.getDueTime();
     }
+
+    public void setStatusMatching() {
+        this.status = Status.MATCHING;
+    }
+
+    public void setStatusWaiting() {
+        this.status = Status.WAITING;
+    }
 }
