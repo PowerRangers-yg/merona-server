@@ -1,6 +1,7 @@
 package dku.merona.service;
 
 import dku.merona.config.UserDetailsImpl;
+import dku.merona.constant.Category;
 import dku.merona.domain.Member;
 import dku.merona.domain.Post;
 import dku.merona.dto.PostRequest;
@@ -30,6 +31,7 @@ public class PostService {
     public PostResponse createPost(PostRequest postRequest, UserDetailsImpl user) {
         Member member = memberService.findMemberById(user.getId());
         postRequest.setMember(member);
+        postRequest.setPostCategory(Category.ofCode(postRequest.getCategory()));
         Post post = savePost(postRequest.toEntity());
         return new PostResponse(post);
     }
