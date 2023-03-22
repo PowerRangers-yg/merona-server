@@ -32,4 +32,9 @@ public class MemberController {
     public void deleteMember(@AuthenticationPrincipal UserDetailsImpl user, @PathVariable Long id) {
         memberService.deleteMember(id, user);
     }
+
+    @GetMapping("/")
+    public boolean checkUsername(@RequestParam String username) {
+        return !memberService.isDuplicateUsername(username);
+    }
 }

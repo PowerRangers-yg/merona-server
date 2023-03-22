@@ -33,6 +33,10 @@ public class MemberService {
         }
     }
 
+    public boolean isDuplicateUsername(String username) {
+        return memberRepository.findByUsername(username).isPresent();
+    }
+
     public MemberResponse getMember(Long memberId) {
         Member member = findMemberById(memberId);
         return new MemberResponse(member);
