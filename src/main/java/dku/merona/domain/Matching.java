@@ -25,5 +25,13 @@ public class Matching extends BaseTime{
         this.request = request;
     }
 
+    public void setNewStatus() {
+        this.post.setStatusMatching();
+        this.request.setStatusMatching();
+    }
 
+    public void setCancelStatus() {
+        this.post.setStatusWaiting();
+        this.request.setStatusCancelled();
+    }
 }
