@@ -28,6 +28,9 @@ public class RequestController {
         return new ResponseEntity<>(requestList, HttpStatus.OK);
     }
 
+    @PatchMapping("/{id}")
+    public void cancelRequest(@PathVariable Long id) {requestService.cancelRequest(id);}
+
     @DeleteMapping("{id}")
     public void deleteRequest(@PathVariable Long id) {
         requestService.deleteRequest(id);
