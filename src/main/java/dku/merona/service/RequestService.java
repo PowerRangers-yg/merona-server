@@ -40,6 +40,11 @@ public class RequestService {
                 .stream().map(RequestResponse::new).collect(Collectors.toList());
     }
 
+    public void cancelRequest(Long requestId) {
+        Request request = findRequestById(requestId);
+        request.setStatusCancelled();
+    }
+
     public void deleteRequest(Long requestId) {
         Request request = findRequestById(requestId);
         request.deleteRelation();
