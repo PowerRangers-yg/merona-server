@@ -1,6 +1,7 @@
 package dku.merona.api;
 
 import dku.merona.config.UserDetailsImpl;
+import dku.merona.constant.Status;
 import dku.merona.dto.PostRequest;
 import dku.merona.dto.PostResponse;
 import dku.merona.service.PostService;
@@ -12,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -23,7 +25,9 @@ public class PostController {
 
     @GetMapping("/")
     public ResponseEntity<List<PostResponse>> getAllPost(@AuthenticationPrincipal UserDetailsImpl user) {
-        return new ResponseEntity<>(postService.getAllPost(user), HttpStatus.OK);
+        List<PostResponse> postList = postService.getAllPost(user)
+                .stream().filter(b -> b.getStatus().equals(Status.WAITING)).collect(Collectors.toList());
+        return new ResponseEntity<>(postList, HttpStatus.OK);
     }
 
     @PostMapping("/new")
