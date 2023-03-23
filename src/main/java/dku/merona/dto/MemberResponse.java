@@ -28,4 +28,12 @@ public class MemberResponse {
         this.createdAt = member.getCreatedAt();
         this.updatedAt = member.getUpdatedAt();
     }
+
+    public MemberResponse(Member member) {
+        this.id = member.getId();
+        this.email = member.getEmail();
+        this.username = member.getUsername();
+        this.createdAt = member.getCreatedAt();
+        this.updatedAt = member.getUpdatedAt();
+    }
 }
