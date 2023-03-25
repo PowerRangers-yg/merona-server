@@ -32,4 +32,9 @@ public class RequestRequest {
                 .post(post)
                 .build();
     }
+
+    public void setMemberAndPost(Member member, Post post) {
+        this.member = member;
+        this.post = post;
+    }
 }
