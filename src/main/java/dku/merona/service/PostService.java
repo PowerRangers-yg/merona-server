@@ -2,7 +2,6 @@ package dku.merona.service;
 
 import dku.merona.config.UserDetailsImpl;
 import dku.merona.constant.Category;
-import dku.merona.domain.Member;
 import dku.merona.domain.Post;
 import dku.merona.dto.PostRequest;
 import dku.merona.dto.PostResponse;
@@ -29,8 +28,7 @@ public class PostService {
     }
 
     public PostResponse createPost(PostRequest postRequest, UserDetailsImpl user) {
-        Member member = memberService.findMemberById(user.getId());
-        postRequest.setMember(member);
+        postRequest.setMember(user.getMember());
         postRequest.setPostCategory(Category.ofCode(postRequest.getCategory()));
         Post post = savePost(postRequest.toEntity());
         return new PostResponse(post);
@@ -43,20 +41,19 @@ public class PostService {
 
     public PostResponse updatePost(Long postId, PostRequest postRequest, UserDetailsImpl user) {
         Post post = findPostById(postId);
-        memberService.validateMember(user, post.getMember().getId());
+        memberService.validateMember(user.getId(), post.getMember());
         post.setPost(postRequest);
         return new PostResponse(post);
     }
 
     public void deletePost(Long postId, UserDetailsImpl user) {
         Post post = findPostById(postId);
-        memberService.validateMember(user, post.getMember().getId());
+        memberService.validateMember(user.getId(), post.getMember());
         postRepository.deleteById(postId);
     }
 
     public List<PostResponse> getAllPost(UserDetailsImpl user) {
-        Member member = memberService.findMemberById(user.getId());
-        return postRepository.findAllByMemberNot(member)
+        return postRepository.findAllByMemberNot(user.getMember())
                 .stream().map(PostResponse::new).collect(Collectors.toList());
     }
 
