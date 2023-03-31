@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,8 +33,9 @@ public class PostController {
 
     @PostMapping("/new")
     public ResponseEntity<PostResponse> createPost(@AuthenticationPrincipal UserDetailsImpl user,
-                                                   @RequestBody PostRequest request) {
-        return new ResponseEntity<>(postService.createPost(request, user), HttpStatus.OK);
+                                                   @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles,
+                                                   @RequestPart(value = "req") PostRequest request) {
+        return new ResponseEntity<>(postService.createPost(request, user, multipartFiles), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
