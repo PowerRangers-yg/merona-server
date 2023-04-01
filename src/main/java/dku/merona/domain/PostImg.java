@@ -1,8 +1,12 @@
 package dku.merona.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
-@Entity
+@Entity @Getter
+@NoArgsConstructor
 public class PostImg extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +20,10 @@ public class PostImg extends BaseTime{
     @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
+
+    public PostImg(String imgName, String imgUrl, Post post) {
+        this.imgName = imgName;
+        this.imgUrl = imgUrl;
+        this.post = post;
+    }
 }
