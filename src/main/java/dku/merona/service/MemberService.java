@@ -33,6 +33,12 @@ public class MemberService {
         }
     }
 
+    public void validateMember(Long memberId, Member member) {
+        if (!member.getId().equals(memberId)) {
+            throw new IllegalStateException("잘못된 요청입니다");
+        }
+    }
+
     public boolean isDuplicateUsername(String username) {
         return memberRepository.findByUsername(username).isPresent();
     }
