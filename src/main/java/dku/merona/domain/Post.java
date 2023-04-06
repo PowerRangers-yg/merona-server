@@ -1,5 +1,6 @@
 package dku.merona.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dku.merona.constant.Category;
 import dku.merona.constant.Status;
 import dku.merona.dto.PostRequest;
@@ -8,13 +9,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor
-public class Post extends BaseTime{
+public class Post extends BaseTime {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
@@ -38,6 +42,10 @@ public class Post extends BaseTime{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<PostImg> postImgList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Status status;
