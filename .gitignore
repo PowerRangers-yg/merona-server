@@ -7,6 +7,8 @@ build/
 
 ### properties ###
 application.properties
+application-aws.yml
+application-security.yml
 
 ### STS ###
 .apt_generated
