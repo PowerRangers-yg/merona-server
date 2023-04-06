@@ -1,6 +1,7 @@
 package dku.merona.service;
 
 import dku.merona.domain.Post;
+import dku.merona.domain.PostImg;
 import dku.merona.dto.PostImgDto;
 import dku.merona.repository.PostImgRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,14 @@ public class PostImgService {
             PostImgDto postImgDto = new PostImgDto(fileName, fileUrl, post);
 
             postImgRepository.save(postImgDto.toEntity());
+        }
+    }
+
+    public void deletePostImgList(Post post) {
+        List<PostImg> postImgList = postImgRepository.findAllByPost(post);
+
+        for (PostImg postImg: postImgList) {
+            s3UploadService.deleteImage(postImg.getImgName());
         }
     }
 }

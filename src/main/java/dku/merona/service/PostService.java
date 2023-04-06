@@ -9,6 +9,7 @@ import dku.merona.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,16 +22,20 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final MemberService memberService;
+    private final PostImgService postImgService;
 
     public Post findPostById(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new NoSuchElementException("게시물이 없습니다"));
     }
 
-    public PostResponse createPost(PostRequest postRequest, UserDetailsImpl user) {
+    public PostResponse createPost(PostRequest postRequest,
+                                   UserDetailsImpl user,
+                                   List<MultipartFile> multipartFiles) {
         postRequest.setMember(user.getMember());
         postRequest.setPostCategory(Category.ofCode(postRequest.getCategory()));
         Post post = savePost(postRequest.toEntity());
+        postImgService.createPostImgList(multipartFiles, post);
         return new PostResponse(post);
     }
 
@@ -49,6 +54,7 @@ public class PostService {
     public void deletePost(Long postId, UserDetailsImpl user) {
         Post post = findPostById(postId);
         memberService.validateMember(user.getId(), post.getMember());
+        postImgService.deletePostImgList(post);
         postRepository.deleteById(postId);
     }
 
