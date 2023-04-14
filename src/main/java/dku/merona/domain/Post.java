@@ -3,7 +3,7 @@ package dku.merona.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dku.merona.constant.Category;
 import dku.merona.constant.Status;
-import dku.merona.dto.PostRequest;
+import dku.merona.dto.PostDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -72,7 +72,7 @@ public class Post extends BaseTime {
         this.status = Status.WAITING;
     }
 
-    public void setPost(PostRequest postRequest) {
+    public void setPost(PostDto.Request postRequest) {
         this.title = postRequest.getTitle();
         this.description = postRequest.getDescription();
         this.deliveryPay = postRequest.getDeliveryPay();
