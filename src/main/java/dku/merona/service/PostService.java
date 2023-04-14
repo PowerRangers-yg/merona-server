@@ -3,8 +3,7 @@ package dku.merona.service;
 import dku.merona.config.UserDetailsImpl;
 import dku.merona.constant.Category;
 import dku.merona.domain.Post;
-import dku.merona.dto.PostRequest;
-import dku.merona.dto.PostResponse;
+import dku.merona.dto.PostDto;
 import dku.merona.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,26 +28,26 @@ public class PostService {
                 .orElseThrow(() -> new NoSuchElementException("게시물이 없습니다"));
     }
 
-    public PostResponse createPost(PostRequest postRequest,
-                                   UserDetailsImpl user,
-                                   List<MultipartFile> multipartFiles) {
-        postRequest.setMember(user.getMember());
-        postRequest.setPostCategory(Category.ofCode(postRequest.getCategory()));
-        Post post = savePost(postRequest.toEntity());
+    public PostDto.Response createPost(PostDto.Request request,
+                              UserDetailsImpl user,
+                              List<MultipartFile> multipartFiles) {
+        request.setMember(user.getMember());
+        request.setPostCategory(Category.ofCode(request.getCategory()));
+        Post post = savePost(request.toEntity());
         postImgService.createPostImgList(multipartFiles, post);
-        return new PostResponse(post);
+        return new PostDto.Response(post);
     }
 
-    public PostResponse getPost(Long postId) {
+    public PostDto.Response getPost(Long postId) {
         Post post = findPostById(postId);
-        return new PostResponse(post);
+        return new PostDto.Response(post);
     }
 
-    public PostResponse updatePost(Long postId, PostRequest postRequest, UserDetailsImpl user) {
+    public PostDto.Response updatePost(Long postId, PostDto.Request request, UserDetailsImpl user) {
         Post post = findPostById(postId);
         memberService.validateMember(user.getId(), post.getMember());
-        post.setPost(postRequest);
-        return new PostResponse(post);
+        post.setPost(request);
+        return new PostDto.Response(post);
     }
 
     public void deletePost(Long postId, UserDetailsImpl user) {
@@ -58,9 +57,9 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
-    public List<PostResponse> getAllPost(UserDetailsImpl user) {
+    public List<PostDto.Response> getAllPost(UserDetailsImpl user) {
         return postRepository.findAllByMemberNot(user.getMember())
-                .stream().map(PostResponse::new).collect(Collectors.toList());
+                .stream().map(PostDto.Response::new).collect(Collectors.toList());
     }
 
     private Post savePost(Post post) {

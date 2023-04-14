@@ -2,8 +2,7 @@ package dku.merona.api;
 
 import dku.merona.config.UserDetailsImpl;
 import dku.merona.constant.Status;
-import dku.merona.dto.PostRequest;
-import dku.merona.dto.PostResponse;
+import dku.merona.dto.PostDto;
 import dku.merona.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,27 +24,27 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/")
-    public ResponseEntity<List<PostResponse>> getAllPost(@AuthenticationPrincipal UserDetailsImpl user) {
-        List<PostResponse> postList = postService.getAllPost(user)
+    public ResponseEntity<List<PostDto.Response>> getAllPost(@AuthenticationPrincipal UserDetailsImpl user) {
+        List<PostDto.Response> postList = postService.getAllPost(user)
                 .stream().filter(b -> b.getStatus().equals(Status.WAITING)).collect(Collectors.toList());
         return new ResponseEntity<>(postList, HttpStatus.OK);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<PostResponse> createPost(@AuthenticationPrincipal UserDetailsImpl user,
+    public ResponseEntity<PostDto.Response> createPost(@AuthenticationPrincipal UserDetailsImpl user,
                                                    @RequestPart(value = "file", required = false) List<MultipartFile> multipartFiles,
-                                                   @RequestPart(value = "req") PostRequest request) {
+                                                   @RequestPart(value = "req") PostDto.Request request) {
         return new ResponseEntity<>(postService.createPost(request, user, multipartFiles), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
+    public ResponseEntity<PostDto.Response> getPost(@PathVariable Long id) {
         return new ResponseEntity<>(postService.getPost(id), HttpStatus.OK);
     }
 
     @PutMapping( "/{id}")
-    public ResponseEntity<PostResponse> updatePost(@AuthenticationPrincipal UserDetailsImpl user,
-                                                   @PathVariable Long id, @RequestBody PostRequest request) {
+    public ResponseEntity<PostDto.Response> updatePost(@AuthenticationPrincipal UserDetailsImpl user,
+                                                   @PathVariable Long id, @RequestBody PostDto.Request request) {
         return new ResponseEntity<>(postService.updatePost(id, request, user), HttpStatus.OK);
     }
 
