@@ -1,8 +1,7 @@
 package dku.merona.api;
 
 import dku.merona.config.UserDetailsImpl;
-import dku.merona.dto.RequestRequest;
-import dku.merona.dto.RequestResponse;
+import dku.merona.dto.DeliveryDto;
 import dku.merona.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,15 +19,15 @@ public class RequestController {
     private final RequestService requestService;
 
     @PostMapping("/new")
-    public ResponseEntity<RequestResponse> createRequest(@AuthenticationPrincipal UserDetailsImpl user,
-                                                         @RequestBody RequestRequest request) {
+    public ResponseEntity<DeliveryDto.Response> createRequest(@AuthenticationPrincipal UserDetailsImpl user,
+                                                              @RequestBody DeliveryDto.Request request) {
         return new ResponseEntity<>(requestService.createRequest(user, request), HttpStatus.OK);
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<List<RequestResponse>> getAllRequestByPost(@AuthenticationPrincipal UserDetailsImpl user,
+    public ResponseEntity<List<DeliveryDto.Response>> getAllRequestByPost(@AuthenticationPrincipal UserDetailsImpl user,
                                                                      @PathVariable Long postId) {
-        List<RequestResponse> requestList = requestService.getAllRequestByPost(user, postId);
+        List<DeliveryDto.Response> requestList = requestService.getAllRequestByPost(user, postId);
         return new ResponseEntity<>(requestList, HttpStatus.OK);
     }
 
