@@ -14,7 +14,8 @@ import java.util.List;
 
 public class PostDto {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     public static class Request {
         // 게시글을 쓸 때 요청받는 정보
         @NotNull
@@ -42,7 +43,7 @@ public class PostDto {
 
         private Member member;
 
-        public Post toEntity(){
+        public Post toEntity() {
             return dku.merona.domain.Post.builder()
                     .title(title)
                     .description(description)
@@ -59,7 +60,7 @@ public class PostDto {
 
     @Getter
     public static class Response {
-    // 특정 게시물 하나를 조회할 때 보이는 정보
+        // 특정 게시물 하나를 조회할 때 보이는 정보
         private Long id;
 
         private String title;
@@ -97,6 +98,34 @@ public class PostDto {
             this.postImgList = post.getPostImgList();
             this.createdAt = post.getCreatedAt();
             this.updatedAt = post.getUpdatedAt();
+        }
+    }
+
+    @Getter
+    public static class MapResponse {
+        // 다수의 게시물을 지도에 띄울 때 필요한 정보
+        private Long id;
+
+        private int deliveryPay;
+
+        private int dueTime;
+
+        private Double latitude;
+
+        private Double longitude;
+
+        private String category;
+
+        private Status status;
+
+        public MapResponse(Post post) {
+            this.id = post.getId();
+            this.deliveryPay = post.getDeliveryPay();
+            this.dueTime = post.getDueTime();
+            this.latitude = post.getLatitude();
+            this.longitude = post.getLongitude();
+            this.category = post.getCategory().getTitle();
+            this.status = post.getStatus();
         }
     }
 }

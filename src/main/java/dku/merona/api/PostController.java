@@ -24,8 +24,8 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/")
-    public ResponseEntity<List<PostDto.Response>> getAllPost(@AuthenticationPrincipal UserDetailsImpl user) {
-        List<PostDto.Response> postList = postService.getAllPost(user)
+    public ResponseEntity<List<PostDto.MapResponse>> getAllPost(@AuthenticationPrincipal UserDetailsImpl user) {
+        List<PostDto.MapResponse> postList = postService.getAllPost(user)
                 .stream().filter(b -> b.getStatus().equals(Status.WAITING)).collect(Collectors.toList());
         return new ResponseEntity<>(postList, HttpStatus.OK);
     }

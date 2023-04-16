@@ -57,9 +57,9 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
-    public List<PostDto.Response> getAllPost(UserDetailsImpl user) {
+    public List<PostDto.MapResponse> getAllPost(UserDetailsImpl user) {
         return postRepository.findAllByMemberNot(user.getMember())
-                .stream().map(PostDto.Response::new).collect(Collectors.toList());
+                .stream().map(PostDto.MapResponse::new).collect(Collectors.toList());
     }
 
     private Post savePost(Post post) {
