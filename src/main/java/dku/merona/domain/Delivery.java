@@ -10,10 +10,10 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Request extends BaseTime{
+public class Delivery extends BaseTime{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "request_id")
+    @Column(name = "delivery_id")
     private Long id;
 
     private String currentLocation;
@@ -32,7 +32,7 @@ public class Request extends BaseTime{
     private RequestStatus status;
 
     @Builder
-    public Request(String currentLocation, int dueTime, Member member, Post post) {
+    public Delivery(String currentLocation, int dueTime, Member member, Post post) {
         this.currentLocation = currentLocation;
         this.dueTime = dueTime;
         this.member = member;

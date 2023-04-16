@@ -2,7 +2,7 @@ package dku.merona.api;
 
 import dku.merona.config.UserDetailsImpl;
 import dku.merona.dto.DeliveryDto;
-import dku.merona.service.RequestService;
+import dku.merona.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,32 +12,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/requests")
+@RequestMapping("/api/deliveries")
 @RequiredArgsConstructor
-public class RequestController {
+public class DeliveryController {
 
-    private final RequestService requestService;
+    private final DeliveryService deliveryService;
 
     @PostMapping("/new")
     public ResponseEntity<DeliveryDto.Response> createRequest(@AuthenticationPrincipal UserDetailsImpl user,
                                                               @RequestBody DeliveryDto.Request request) {
-        return new ResponseEntity<>(requestService.createRequest(user, request), HttpStatus.OK);
+        return new ResponseEntity<>(deliveryService.createRequest(user, request), HttpStatus.OK);
     }
 
     @GetMapping("/{postId}")
     public ResponseEntity<List<DeliveryDto.Response>> getAllRequestByPost(@AuthenticationPrincipal UserDetailsImpl user,
                                                                      @PathVariable Long postId) {
-        List<DeliveryDto.Response> requestList = requestService.getAllRequestByPost(user, postId);
+        List<DeliveryDto.Response> requestList = deliveryService.getAllRequestByPost(user, postId);
         return new ResponseEntity<>(requestList, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
     public void cancelRequest(@AuthenticationPrincipal UserDetailsImpl user,
-                              @PathVariable Long id) {requestService.cancelRequest(user, id);}
+                              @PathVariable Long id) {
+        deliveryService.cancelRequest(user, id);}
 
     @DeleteMapping("{id}")
     public void deleteRequest(@AuthenticationPrincipal UserDetailsImpl user,
                               @PathVariable Long id) {
-        requestService.deleteRequest(user, id);
+        deliveryService.deleteRequest(user, id);
     }
 }

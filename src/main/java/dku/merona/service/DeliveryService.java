@@ -5,7 +5,7 @@ import dku.merona.domain.Member;
 import dku.merona.domain.Post;
 import dku.merona.domain.Delivery;
 import dku.merona.dto.DeliveryDto;
-import dku.merona.repository.RequestRepository;
+import dku.merona.repository.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +17,14 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class RequestService {
+public class DeliveryService {
 
-    private final RequestRepository requestRepository;
+    private final DeliveryRepository deliveryRepository;
     private final PostService postService;
     private final MemberService memberService;
 
     public Delivery findRequestById(Long requestId) {
-        return requestRepository.findById(requestId)
+        return deliveryRepository.findById(requestId)
                 .orElseThrow(() -> new NoSuchElementException("해당 요청이 없습니다"));
     }
 
@@ -33,14 +33,14 @@ public class RequestService {
         Member member = user.getMember();
 
         request.setMemberAndPost(member, post);
-        Delivery newDelivery = requestRepository.save(request.toEntity());
+        Delivery newDelivery = deliveryRepository.save(request.toEntity());
         return new DeliveryDto.Response(newDelivery);
     }
 
     public List<DeliveryDto.Response> getAllRequestByPost(UserDetailsImpl user, Long postId) {
         Post post = postService.findPostById(postId);
         memberService.validateMember(user.getId(), post.getMember());
-        return requestRepository.findAllByPost(post)
+        return deliveryRepository.findAllByPost(post)
                 .stream().map(DeliveryDto.Response::new).collect(Collectors.toList());
     }
 
@@ -54,6 +54,6 @@ public class RequestService {
         Delivery delivery = findRequestById(requestId);
         memberService.validateMember(user.getId(), delivery.getMember());
         delivery.deleteRelation();
-        requestRepository.deleteById(requestId);
+        deliveryRepository.deleteById(requestId);
     }
 }
